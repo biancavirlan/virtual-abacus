@@ -3,7 +3,7 @@ import Abacus from './components/abacus/abacus'
 function App() {
   return (
     <div>
-      <Abacus />
+      <Abacus rowQty={9}/>
     </div>
   );
 }

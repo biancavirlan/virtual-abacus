@@ -1,3 +1,49 @@
+table {
+  border-spacing: 0px;
+  border: 15px solid var(--abacus-separator-color);
+  padding: 10px;
+}
+
 .abacus-container {
-    margin: auto;
+  margin: auto;
+}
+
+.abacus-space {
+  height: 30px;
+  
+}
+
+.abacus-separator-row {
+  height: 15px;
+}
+
+
+.abacus-spita {
+    width: 15px;
+    height: 270px;
+    background-color: var(--abacus-separator-color);
+    position: absolute;
+    top: 15px;
+}
+
+.abacus-separator {
+    height: 15px;
+    background-color: var(--abacus-separator-color);
+    position: absolute;
+    top: 90px;
+    left: 15px;
+}
+
+.point {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.point>div{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--abacus-separator-point);
+    margin-right: 3px;
 }
