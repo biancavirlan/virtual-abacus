@@ -4,6 +4,7 @@ import "./abacus.css";
 
 const Abacus = ({ rowQty = 15 }) => {
   const [separatorWidth, setSeparatorWidth] = useState(0);
+  const [movedColumn, setMovedColumn] = useState({});
   const abacusContainerRef = useRef();
   const middlePointSeparator = new Array(rowQty)
     .fill(null)
@@ -17,11 +18,21 @@ const Abacus = ({ rowQty = 15 }) => {
       </td>
     ));
 
-  const buildRow = (ballType) => {
+    const moveEvent = (movePosition, rowNumber, colNumber) => {
+      console.log("move-event", movePosition, rowNumber, colNumber);
+      setMovedColumn({movePosition, rowNumber, colNumber})
+    }
+
+  const buildRow = (ballType, rowNumber) => {
+    console.log("buildRow", rowNumber === movedColumn.rowNumber)
     const row = [];
     for (let i = 0; i < rowQty; i++) {
+      if(movedColumn.colNumber === i)console.log(`pe randul ${rowNumber} este mutat ${i}`, rowNumber)
       row.push(
-       <TableCell key={`abacus-ball-${i}`} movePosition={ballType === 'soldier' ? '-30px' : '30px'}/>
+       <TableCell 
+       key={`abacus-ball-${i}`} 
+       movePosition={ballType === 'soldier' ? '-30px' : '30px'}
+       onBallMove={(val) => moveEvent(val, rowNumber, i)}/>
       );
     }
     return row;
@@ -58,9 +69,9 @@ const Abacus = ({ rowQty = 15 }) => {
           <tr className="abacus-separator-row">{middlePointSeparator}</tr>
           <tr className="abacus-space"></tr>
           <tr>{buildRow('soldier')}</tr>
-          <tr>{buildRow('soldier')}</tr>
-          <tr>{buildRow('soldier')}</tr>
-          <tr>{buildRow('soldier')}</tr>
+          <tr>{buildRow('soldier', 1)}</tr>
+          <tr>{buildRow('soldier', 2)}</tr>
+          <tr>{buildRow('soldier', 3)}</tr>
         </tbody>
       </table>
     </div>

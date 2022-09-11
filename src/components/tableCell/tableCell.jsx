@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import AbacusBall from "../abacusBall/abacusBall";
 
-const TableCell = ({movePosition}) => {
+const TableCell = ({movePosition, onBallMove}) => {
     const [cellPosition, setCellPosition] = useState(0);
 
     const handleMoveBall = () => {
-        setCellPosition(prevValue => prevValue === 0 ? movePosition : 0)
+        setCellPosition(prevValue => {
+            const move = prevValue === 0 ? movePosition : 0;
+            onBallMove(move);
+            return move;
+        })
     }
 
     return(

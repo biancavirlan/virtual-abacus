@@ -1,5 +1,5 @@
 :root {
-  --abacus-separator-color: #20a3999e;
+  --abacus-separator-color: #0b971e9e;
   --abacus-separator-point: #011a189e;
 }
 
@@ -11,9 +11,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+  min-height: 100vh;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dark-container {
+  background-color: #00000099;
+  color: white;
 }

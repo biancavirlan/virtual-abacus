@@ -1,6 +1,4 @@
 const AbacusBall = ({themeChanger}) => {
-  
-  console.log(themeChanger)
 
   return (
     themeChanger ? <svg
@@ -19,9 +17,9 @@ const AbacusBall = ({themeChanger}) => {
         gradientTransform="matrix(1 0 0 -1 0 -16224)"
       >
         <stop offset="0" stopColor="#1f9b93" />
-        <stop offset=".546" stopColor="#1f9b93" />
+        <stop offset=".546" stopColor="#07b052" />
         <stop offset=".648" stopColor="#20a399" />
-        <stop offset="1" stopColor="#23bcaa" />
+        <stop offset="1" stopColor="#00d4ff" />
       </linearGradient>
       <path
         fill="url(#a)"
