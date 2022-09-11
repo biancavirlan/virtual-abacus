@@ -15,8 +15,7 @@ const Home = () => {
             <p>The standard abacus can be ysed to perform addition, substraction, division and multiplication. The abacus can also be used to extract square-roots and cubic roots.</p>
             <br/>
             <h1>Introduction to Abacus</h1>
-            <p>The Abacus ( or Soroban as it is called in Japan) is an ancient mathematical instrument used for calculations.</p><break>
-            </break>
+            <p>The Abacus ( or Soroban as it is called in Japan) is an ancient mathematical instrument used for calculations.</p>
             <p>When using an Abacus always work numbers going from left to right.</p>
            
         </div>

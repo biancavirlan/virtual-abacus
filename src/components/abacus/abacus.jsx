@@ -1,16 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import TableCell from '../tableCell/tableCell';
+import TableCell from "../tableCell/tableCell";
 import "./abacus.css";
 
 const Abacus = ({ rowQty = 15 }) => {
   const [separatorWidth, setSeparatorWidth] = useState(0);
   const [movedColumn, setMovedColumn] = useState({});
+  const [abacus, setAbacus] = useState([]);
   const abacusContainerRef = useRef();
+
   const middlePointSeparator = new Array(rowQty)
     .fill(null)
     .map((elem, index) => (
       <td key={index}>
-        {index === Math.floor(rowQty/2) && (
+        {index === Math.floor(rowQty / 2) && (
           <div className="point">
             <div />
           </div>
@@ -18,24 +20,55 @@ const Abacus = ({ rowQty = 15 }) => {
       </td>
     ));
 
-    const moveEvent = (movePosition, rowNumber, colNumber) => {
-      console.log("move-event", movePosition, rowNumber, colNumber);
-      setMovedColumn({movePosition, rowNumber, colNumber})
+  useEffect(() => {
+    const abacusRows = [];
+    for (let j = 0; j < 5; j++) {
+      const row = [];
+      for (let i = 0; i < rowQty; i++) {
+        row.push({
+          position: 0,
+          movePosition: j !== 0 ? "-30px" : "30px",
+          onBallMove: moveEvent,
+        });
+      }
+      abacusRows.push(row);
+    }
+    setAbacus(abacusRows);
+  }, []);
+
+  const moveEvent = (abacusState, rowNumber, colNumber) => {
+    const temp = [...abacusState];
+    console.log(abacusState[rowNumber][colNumber]);
+
+    if (abacusState[rowNumber][colNumber].position === 0) {
+      for (let i = 1; i <= rowNumber; i++) {
+        if (temp[i][colNumber].position === 0)
+          temp[i][colNumber].position = temp[i][colNumber].movePosition;
+      }
+    } else {
+      for (let i = rowNumber; i >=rowNumber; i--) {
+        if (temp[i][colNumber].position !== 0) temp[i][colNumber].position = 0;
+      }
     }
 
-  const buildRow = (ballType, rowNumber) => {
-    console.log("buildRow", rowNumber === movedColumn.rowNumber)
-    const row = [];
-    for (let i = 0; i < rowQty; i++) {
-      if(movedColumn.colNumber === i)console.log(`pe randul ${rowNumber} este mutat ${i}`, rowNumber)
-      row.push(
-       <TableCell 
-       key={`abacus-ball-${i}`} 
-       movePosition={ballType === 'soldier' ? '-30px' : '30px'}
-       onBallMove={(val) => moveEvent(val, rowNumber, i)}/>
+    setAbacus(temp);
+  };
+
+  const buildRow = (rowNumber) => {
+    if (abacus.length === 0) return;
+    return abacus[rowNumber].map((cell, index) => {
+      return (
+        <TableCell
+          key={`abacus-ball-${index}`}
+          position={cell.position}
+          movePosition={cell.position}
+          onBallMove={cell.onBallMove}
+          abacus={abacus}
+          row={rowNumber}
+          col={index}
+        />
       );
-    }
-    return row;
+    });
   };
 
   const buildSpite = () => {
@@ -53,9 +86,8 @@ const Abacus = ({ rowQty = 15 }) => {
   };
 
   useEffect(() => {
-    console.dir(abacusContainerRef);
     setSeparatorWidth(abacusContainerRef.current.clientWidth - 30);
-  }, [abacusContainerRef]);
+  }, [abacusContainerRef.current]);
 
   return (
     <div className="abacus-container">
@@ -64,14 +96,14 @@ const Abacus = ({ rowQty = 15 }) => {
       <table ref={abacusContainerRef}>
         <thead></thead>
         <tbody>
-          <tr>{buildRow('queen')}</tr>
+          <tr>{buildRow(0)}</tr>
           <tr className="abacus-space border-bottom"></tr>
           <tr className="abacus-separator-row">{middlePointSeparator}</tr>
           <tr className="abacus-space"></tr>
-          <tr>{buildRow('soldier')}</tr>
-          <tr>{buildRow('soldier', 1)}</tr>
-          <tr>{buildRow('soldier', 2)}</tr>
-          <tr>{buildRow('soldier', 3)}</tr>
+          <tr>{buildRow(1)}</tr>
+          <tr>{buildRow(2)}</tr>
+          <tr>{buildRow(3)}</tr>
+          <tr>{buildRow(4)}</tr>
         </tbody>
       </table>
     </div>
