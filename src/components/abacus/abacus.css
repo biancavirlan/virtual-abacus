@@ -1,9 +1,9 @@
 table {
-  border-spacing: 0px!important;
+  border-spacing: 0px !important;
   border: 15px solid var(--abacus-separator-color);
-  padding: 10px!important;
-  caption-side: top!important;
-  border-collapse: separate!important;
+  padding: 10px !important;
+  caption-side: top !important;
+  border-collapse: separate !important;
 }
 
 table td {
@@ -22,7 +22,6 @@ table td {
 .abacus-separator-row {
   height: 15px;
 }
-
 
 .abacus-spita {
   width: 15px;
@@ -46,7 +45,7 @@ table td {
   align-items: center;
 }
 
-.point>div {
+.point > div {
   width: 15px;
   height: 15px;
   border-radius: 50%;
@@ -54,5 +53,10 @@ table td {
   margin-right: 3px;
 }
 
-
-
+.abacus-results-col {
+  display: flex;
+  width: 100%;
+  color: #68bf74;
+  font-size: 24px;
+  font-weight: 800;
+}

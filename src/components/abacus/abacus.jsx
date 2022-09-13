@@ -4,7 +4,7 @@ import "./abacus.css";
 
 const Abacus = ({ rowQty = 15 }) => {
   const [separatorWidth, setSeparatorWidth] = useState(0);
-  const [movedColumn, setMovedColumn] = useState({});
+  const [colResults, setColResults] = useState(new Array(rowQty).fill(0));
   const [abacus, setAbacus] = useState([]);
   const abacusContainerRef = useRef();
 
@@ -36,13 +36,37 @@ const Abacus = ({ rowQty = 15 }) => {
     setAbacus(abacusRows);
   }, []);
 
+  useEffect(() => {
+    setSeparatorWidth(abacusContainerRef.current.clientWidth - 30);
+  }, [abacusContainerRef.current]);
+
+  useEffect(() => {
+    if (abacus?.length > 0) {
+      const temp = [];
+      for (let colNumber = 0; colNumber < rowQty; colNumber++) {
+        const columnValues = [];
+        for (let i = 0; i <= 4; i++) {
+          if (i === 0)
+            columnValues.push(abacus[i][colNumber].position === 0 ? 0 : 5);
+          else columnValues.push(Number(abacus[i][colNumber].position !== 0));
+        }
+        const total = columnValues.reduce((acc, val) => acc + val);
+        temp.push(total);
+      }
+      setColResults(temp)
+    }
+  }, [abacus]);
+
   const moveEvent = (abacusState, rowNumber, colNumber) => {
     const temp = [...abacusState];
     if (rowNumber !== 0 && abacusState[rowNumber][colNumber].position === 0) {
       for (let i = 1; i <= rowNumber; i++) {
-          temp[i][colNumber].position = temp[i][colNumber].movePosition;
+        temp[i][colNumber].position = temp[i][colNumber].movePosition;
       }
-    } else if(rowNumber !== 0 && abacusState[rowNumber][colNumber].position !== 0){
+    } else if (
+      rowNumber !== 0 &&
+      abacusState[rowNumber][colNumber].position !== 0
+    ) {
       for (let i = rowNumber; i <= 4; i++) {
         temp[i][colNumber].position = 0;
       }
@@ -85,10 +109,6 @@ const Abacus = ({ rowQty = 15 }) => {
     return spite;
   };
 
-  useEffect(() => {
-    setSeparatorWidth(abacusContainerRef.current.clientWidth - 30);
-  }, [abacusContainerRef.current]);
-
   return (
     <div className="abacus-container">
       <div className="abacus-separator" style={{ width: separatorWidth }}></div>
@@ -106,6 +126,17 @@ const Abacus = ({ rowQty = 15 }) => {
           <tr>{buildRow(4)}</tr>
         </tbody>
       </table>
+      <div className="abacus-results-col">
+        {colResults.map((colVal, i) => (
+          <div
+            key={"abacusColResult-" + i}
+            className="text-center"
+            style={{ position: "relative", left: 62 + i * (62 + 16.5) }}
+          >
+            {colVal}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
