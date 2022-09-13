@@ -38,19 +38,19 @@ const Abacus = ({ rowQty = 15 }) => {
 
   const moveEvent = (abacusState, rowNumber, colNumber) => {
     const temp = [...abacusState];
-    console.log(abacusState[rowNumber][colNumber]);
-
-    if (abacusState[rowNumber][colNumber].position === 0) {
+    if (rowNumber !== 0 && abacusState[rowNumber][colNumber].position === 0) {
       for (let i = 1; i <= rowNumber; i++) {
-        if (temp[i][colNumber].position === 0)
           temp[i][colNumber].position = temp[i][colNumber].movePosition;
       }
-    } else {
-      for (let i = rowNumber; i >=rowNumber; i--) {
-        if (temp[i][colNumber].position !== 0) temp[i][colNumber].position = 0;
+    } else if(rowNumber !== 0 && abacusState[rowNumber][colNumber].position !== 0){
+      for (let i = rowNumber; i <= 4; i++) {
+        temp[i][colNumber].position = 0;
       }
     }
-
+    if (rowNumber === 0) {
+      temp[0][colNumber].position =
+        temp[0][colNumber].position === 0 ? temp[0][colNumber].movePosition : 0;
+    }
     setAbacus(temp);
   };
 
